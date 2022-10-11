@@ -1,0 +1,227 @@
+\documentclass[12pt]{article}
+%\documentclass[a4paper,11pt]{article}
+
+
+%deklaracje pakietów
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{eucal}
+\usepackage{listings}
+
+%pakiety z językiem polskim
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage[cp1250]{inputenc}
+\usepackage{t1enc}
+%ustawienia marginesów
+\textwidth=16cm \textheight=23cm \oddsidemargin=0.5cm
+\topmargin=-1cm
+
+\usepackage{graphicx}
+
+\renewcommand\baselinestretch{1.1}
+
+
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\def\R{\mathbb{R}}
+
+
+\def\N{\mathbb{N}}
+\def\CC{\mathcal{C}} % kaligraficzne C
+\def\FF{\mathcal{F}} % kaligraficzne F
+\def\MM{\mathcal{M}} % kaligraficzne M
+\def\NN{\mathcal{N}} % kaligraficzne N
+
+\newtheorem{tw}{Twierdzenie}
+\newtheorem{lem}{Lemat}
+\newtheorem{wn}{Wniosek}
+\newtheorem{fakt}{Fakt}
+\newtheorem{uw}{Uwaga}
+\newtheorem{defin}{Definicja}
+\newtheorem{prz}{Przykład}
+\newenvironment{dow}{\par \noindent \emph{Dowód.\ }}{\par\noindent\hfill$\Box$}
+
+
+
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+backgroundcolor=\color{backcolour},  
+commentstyle=\color{codegreen},
+keywordstyle=\color{magenta},
+numberstyle=\tiny\color{codegray},
+stringstyle=\color{codepurple},
+basicstyle=\ttfamily\footnotesize,
+breakatwhitespace=false,        
+breaklines=true,                
+captionpos=b,                    
+keepspaces=true,                
+numbers=left,                    
+numbersep=5pt,                  
+showspaces=false,                
+showstringspaces=false,
+showtabs=false,                  
+tabsize=2
+}
+\lstset{style=mystyle}
+\begin{document}
+ \begin{center}
+\LARGE{UNIWERSYTET GDAŃSKI}
+\end{center}
+
+\begin{center}
+\LARGE{WYDZIAŁ MATEMATYKI, FIZYKI I\\ INFORMATYKI}
+\end{center}
+
+
+\vspace{50mm}
+\begin{center}
+\Large{\textbf{Ewa Bojke}}\\ \vskip 4mm
+\large{MODELOWANIE MATEMATYCZNE \\I ANALIZA DANYCH}
+\vspace{10mm}
+
+
+
+\Huge\textbf{Szeregi Fouriera - Maxima} 
+\end{center}
+
+\vspace{30mm}
+
+\begin{flushright}
+Projekt zaliczeniowy\\ 
+dr. Marta Frankowska 
+\end{flushright}
+\vspace{20mm}
+\begin{center}
+\textbf{Gdańsk 2022}
+\end{center}
+
+\newpage
+Dana jest funkcja $f(x)$ określona na przedziale $[0,t]$ taka, że
+
+$$f(x) = 0.1x^3 - 4.5x, \\  t= 5.$$ 
+
+\bigskip
+
+Pierwszym etapem będzie przedłużenie funkcji $f$ do funkcji parzystej $f_p$ oraz do funkcji nieparzystej $f_n$ na przedziale $[-t,t]$ spełniającej warunki Dirichleta.
+
+\smallskip
+Sprawdźmy, czy funkcja $f(x)$ spełnia warunki Dirichleta, czyli
+
+\begin{itemize}
+    \item $f(x)$ jest przedziałami monotoniczna na odcinku $[-5,5]$,
+    \item funkcja ${\displaystyle f(x)}$ w przedziale jednego okresu posiada skończoną liczbę punktów nieciągłości pierwszego rodzaju,
+    \item wartości funkcji $f(x)$ na krańcach przedziału $[-5,5]$ są równe, czyli $f(-5) = f(5).$
+\end{itemize}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=100mm,scale=1]{granice.png}
+\label{fig:granice}
+\end{figure}
+
+\textbf{Wnioski:} 
+Funkcja $f(x)$ nie spełnia warunków Dirichleta, co widać poniżej:
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=150mm,scale=1]{warunek.png}
+\label{fig:warunek}
+\end{figure}
+
+
+\newpage
+\smallskip
+
+Widzimy że wartości funkcji na krańcach przedziału nie są równe średniej arytmetycznej 
+granic. Funkcja f nie spełnia warunków Dirichleta, musimy zatem zamienić krańcowa wartość funkcji nieparzystej na 0.
+
+\bigskip
+
+\bigskip
+
+Przedłużmy funkcję $f(x)$ do funkcji parzystej $f_p$ i funkcji nieparzystej $f_n$ zgodnie ze wcześniejszymi założeniami.
+
+\bigskip
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=160mm,scale=1]{funkcje_rozszerzenie.PNG}
+\label{fig:fp-fn}
+\end{figure}
+
+\bigskip
+
+Poniżej zamieszczony został wykres tych dwóch funkcji.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=163mm,scale=1]{wykres_f.PNG}
+\caption{Ilustracja funkcji parzystej i nieparzystej f(x)}
+\label{fig:wykres2d}
+\end{figure}
+
+
+\newpage
+Podajmy współczynniki rozwinięcia funkcji $f(x)$ w szereg Fouriera w przedziale [-5,5].
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=118mm,scale=1]{rozwiniecie-fourier.PNG}
+\label{fig:fourier}
+\end{figure}
+
+\bigskip
+
+A tak prezentują się współczynniki rozwinięcia funkcji $f(x)$ w szereg Fouriera według
+sinusów i cosinusów.
+
+\begin{figure}[ht!]
+\centering
+\subfloat{\label{fig:rozwiniecie-sinus}}
+\includegraphics[width=125mm,scale=1]{rozwiniecie-sinus.PNG}
+\quad
+\subfloat{\label{fig:rozwiniecie-cosinus}}
+\includegraphics[width=135mm,scale=1]{rozwiniecie-cosinus.PNG}
+\caption{Rozwinięcie w szereg Fouriera wg. sinusów i cosinusów}
+\end{figure}
+
+
+\newpage
+Dla każdego z tych szeregu zdefiniowano funkcję, która wyznacza n-tą sumę częściową:
+
+\bigskip
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=150mm,scale=1]{suma.PNG}
+\label{fig:suma}
+\end{figure}
+
+\newpage
+Zestawienie funkcji $f_p(x)$ oraz $f_n(x)$ wraz ze zmieniającymi się sumami częściowymi szeregu zostały zaprezentowane na dwóch animacjach. Oto jak powstała jedna z animacji:
+
+\smallskip
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=165mm,scale=1]{animacja.PNG}
+\label{fig:animacja}
+\end{figure}
+
+\bigskip
+Gdzie:
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=78mm,scale=1]{gdzie.PNG}
+\label{fig:gdzie}
+\end{figure}
+
+\end{document}
